@@ -1,0 +1,30 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+        docker: 18
+  pre_build:
+    commands:
+      - pip install awscli --upgrade --user
+      - echo `aws --version`
+      - echo Logging in to ECR...
+      - $(aws ecr get-login --region eu-west-1 --no-include-email)
+      - REPOSITORY_URI=${repository_url}
+      - APPLICATION_NAME=${application_name}
+      - echo Configured pre-build environment
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the image...
+      - docker build -t steamhaus-lab/$APPLICATION_NAME .
+      - docker tag steamhaus-lab/$APPLICATION_NAME:latest $REPOSITORY_URI:latest
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker images...
+      - docker push $REPOSITORY_URI:latest
+      - echo Writing image definitions file...
+      - printf '[{"name":"%s","imageUri":"%s"}]' $APPLICATION_NAME $REPOSITORY_URI:latest > imagedefinitions.json
+artifacts:
+  files: imagedefinitions.json
