@@ -45,6 +45,9 @@ resource "aws_s3_bucket" "steamhaus-labs-deploy" {
       }
     }
   }
+  versioning {
+    enabled = true
+  }
 }
 
 resource "aws_codepipeline" "helloworld_pipeline" {
