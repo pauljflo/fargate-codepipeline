@@ -72,7 +72,7 @@ resource "aws_ecs_service" "helloworld_fargate" {
 
   load_balancer {
     target_group_arn = aws_lb_target_group.helloworld.arn
-    container_name   = "helloworld"
+    container_name   = "helloworld-cloud"
     container_port   = 80
   }
 }
