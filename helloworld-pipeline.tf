@@ -3,7 +3,7 @@ data "template_file" "buildspec" {
   template = file("${path.module}/buildspecs/docker.yml")
 
   vars = {
-    application_name   = "helloworld"
+    application_name   = "helloworld-cloud"
     repository_url     = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${data.aws_region.current.name}.amazonaws.com/steamhaus-lab/helloworld"
   }
 }
@@ -37,17 +37,6 @@ resource "aws_codebuild_project" "app_build" {
 resource "aws_s3_bucket" "steamhaus-labs-deploy" {
   bucket = var.artifacts_bucket
   acl    = "private"
-
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
-  versioning {
-    enabled = true
-  }
 }
 
 resource "aws_codepipeline" "helloworld_pipeline" {
