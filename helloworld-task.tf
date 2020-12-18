@@ -1,7 +1,7 @@
 locals {
   helloworld_fargate_container_definitions = [
     {
-      name      = "helloworld"
+      name      = "helloworld-cloud"
       image     = "pauljflo/demo-app:latest"
 
       logConfiguration = {

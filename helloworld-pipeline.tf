@@ -3,7 +3,7 @@ data "template_file" "buildspec" {
   template = file("${path.module}/buildspecs/docker.yml")
 
   vars = {
-    application_name   = "helloworld"
+    application_name   = "helloworld-cloud"
     repository_url     = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${data.aws_region.current.name}.amazonaws.com/steamhaus-lab/helloworld"
   }
 }
