@@ -1,7 +1,7 @@
 locals {
   helloworld_fargate_container_definitions = [
     {
-      name      = "helloworld-cloud"
+      name      = "helloworld"
       image     = "pauljflo/demo-app:latest"
 
       logConfiguration = {
@@ -72,7 +72,7 @@ resource "aws_ecs_service" "helloworld_fargate" {
 
   load_balancer {
     target_group_arn = aws_lb_target_group.helloworld.arn
-    container_name   = "helloworld-cloud"
+    container_name   = "helloworld"
     container_port   = 80
   }
 }
